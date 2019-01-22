@@ -36,6 +36,7 @@ class LoadConfiguration
         $app->instance('config', $config = new Repository($items));
 
         if (! isset($loadedFromCache)) {
+            // 自动解析 config/ 目录下的 .php 文件，支持多层目录
             $this->loadConfigurationFiles($app, $config);
         }
 

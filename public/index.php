@@ -19,7 +19,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 // 而是对应能够生成 'App\Http\Kernel' 类对象的闭包函数。
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
-
+// handle： 1. 注册$bootstrappers, 执行每个 bootstrap classes 的每个bootstrap方法
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );

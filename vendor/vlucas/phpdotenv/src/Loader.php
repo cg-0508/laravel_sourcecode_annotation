@@ -84,6 +84,7 @@ class Loader
         $filePath = $this->filePath;
         $lines = $this->readLinesFromFile($filePath);
         foreach ($lines as $line) {
+            // 将 $lines 数组每个元素进行解析，并赋值到系统环境变量中
             if (!$this->isComment($line) && $this->looksLikeSetter($line)) {
                 $this->setEnvironmentVariable($line);
             }
