@@ -114,6 +114,7 @@ class Kernel implements KernelContract
             $request->enableHttpMethodParameterOverride();
 
             $response = $this->sendRequestThroughRouter($request);
+
         } catch (Exception $e) {
             $this->reportException($e);
 
@@ -145,6 +146,20 @@ class Kernel implements KernelContract
         // 循环调用服务提供者的 bootstrap 方法
         $this->bootstrap();
 
+        /**
+         * 首先实例化管道（Pipeline）类，将容器对象传入构造函数，返回管道对象；
+         * 然后调用管道对象的 send（送） 方法，以 request（请求） 对象为参数（即把 requset 送入管道，准备穿透中间件）；
+         * 再然后，调用对象的 through（穿过）方法，以中间件数组为参数；
+         * [
+                \App\Http\Middleware\CheckForMaintenanceMode::class,
+                \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+                \App\Http\Middleware\TrimStrings::class,
+                \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+                \App\Http\Middleware\TrustProxies::class,
+           ];
+         * 实例化 5 个类，依次 [ 倒序 ] 调用实例化的 handle 方法
+         * 最后，如果请求（经过过滤的）成功过来了，调用管道对象的 then 方法，将请求派遣分配的路由中。
+         */
         return (new Pipeline($this->app))
                     ->send($request)
                     ->through($this->app->shouldSkipMiddleware() ? [] : $this->middleware)

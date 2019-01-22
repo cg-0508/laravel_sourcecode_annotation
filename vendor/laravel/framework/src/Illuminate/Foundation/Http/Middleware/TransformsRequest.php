@@ -23,10 +23,11 @@ class TransformsRequest
      */
     public function handle($request, Closure $next, ...$attributes)
     {
+        // 传递给此中间件的附加属性，索引数组。
         $this->attributes = $attributes;
-
+        // 清理 $_GET 和 $_POST 的前后空白字符
         $this->clean($request);
-
+        // 进入下一个中间件
         return $next($request);
     }
 
@@ -38,6 +39,7 @@ class TransformsRequest
      */
     protected function clean($request)
     {
+        // 清理 $_GET 中值的空白符
         $this->cleanParameterBag($request->query);
 
         if ($request->isJson()) {
@@ -49,7 +51,7 @@ class TransformsRequest
 
     /**
      * Clean the data in the parameter bag.
-     *
+     * 核心清理
      * @param  \Symfony\Component\HttpFoundation\ParameterBag  $bag
      * @return void
      */

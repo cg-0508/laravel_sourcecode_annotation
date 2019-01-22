@@ -18,8 +18,9 @@ class ValidatePostSize
      */
     public function handle($request, Closure $next)
     {
+        // 获取 php.ini 中 post_max_size 设定的值
         $max = $this->getPostMaxSize();
-
+// 通过对比头信息 CONTENT_LENGTH（POST 数据长度，单位字节），来判断是否抛出 PostTooLargeException 异常
         if ($max > 0 && $request->server('CONTENT_LENGTH') > $max) {
             throw new PostTooLargeException;
         }

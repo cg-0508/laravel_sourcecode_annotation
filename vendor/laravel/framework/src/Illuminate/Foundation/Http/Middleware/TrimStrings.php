@@ -15,13 +15,14 @@ class TrimStrings extends TransformsRequest
 
     /**
      * Transform the given value.
-     *
+     * 核心方法：空白字符串清理，此方法将在 handle 中最终调用
      * @param  string  $key
      * @param  mixed  $value
      * @return mixed
      */
     protected function transform($key, $value)
     {
+        // 首先排除掉不进行空白字符串的键值对
         if (in_array($key, $this->except, true)) {
             return $value;
         }

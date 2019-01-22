@@ -56,6 +56,7 @@ class Pipeline implements PipelineContract
      */
     public function send($passable)
     {
+        // $this->passable 就是 request 对象
         $this->passable = $passable;
 
         return $this;
@@ -69,6 +70,7 @@ class Pipeline implements PipelineContract
      */
     public function through($pipes)
     {
+
         $this->pipes = is_array($pipes) ? $pipes : func_get_args();
 
         return $this;
@@ -93,12 +95,13 @@ class Pipeline implements PipelineContract
      * @param  \Closure  $destination
      * @return mixed
      */
-    public function then(Closure $destination)
+    public function then(Closure $destination)  // $destination 参数是 $this->dispatchToRouter() 返回的闭包
     {
+        // array_reduce 实现穿透的主要函数
         $pipeline = array_reduce(
             array_reverse($this->pipes), $this->carry(), $this->prepareDestination($destination)
         );
-
+        // 执行请求穿透。
         return $pipeline($this->passable);
     }
 

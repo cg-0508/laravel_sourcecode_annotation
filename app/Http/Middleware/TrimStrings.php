@@ -9,6 +9,8 @@ class TrimStrings extends Middleware
     /**
      * The names of the attributes that should not be trimmed.
      *
+     * 排除指定字段名（key）的值，即以下面为 key 的 value 将不进行空白字符清理
+     *
      * @var array
      */
     protected $except = [

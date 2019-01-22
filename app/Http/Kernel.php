@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     /**
+     * 五个全局中间件
+     * 中间件作用的实现方式是通过执行中间件的 handle 方法来过滤 request 的
      * The application's global HTTP middleware stack.
      *
      * These middleware are run during every request to your application.
@@ -14,11 +16,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\TrustProxies::class,
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class, // 检测是否开启维护模式
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class, // 拦截 POST 数据过大的异常，通过 PHP 异常处理机制，向请求方抛出 413 HTTP 异常
+        \App\Http\Middleware\TrimStrings::class, // 清理 $_GET 和 $_POST 两个数组值的前后空白字符
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class, // 关于空字符转成 null 一种处理
+        \App\Http\Middleware\TrustProxies::class, // 设置信任代理
     ];
 
     /**
