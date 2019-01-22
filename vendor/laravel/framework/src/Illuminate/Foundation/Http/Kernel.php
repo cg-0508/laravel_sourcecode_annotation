@@ -142,7 +142,7 @@ class Kernel implements KernelContract
         $this->app->instance('request', $request);
 
         Facade::clearResolvedInstance('request');
-
+        // 循环调用服务提供者的 bootstrap 方法
         $this->bootstrap();
 
         return (new Pipeline($this->app))
