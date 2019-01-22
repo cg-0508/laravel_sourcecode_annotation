@@ -11,6 +11,8 @@
 - 服务注册( 对服务器提供者进行分类：deferred 延时加载、eager 即时加载、when 事件触发 )
 - 服务器提供者初始化引导( 执行 boot 方法 )
 - 路由加载
+- Pipeline 管道实现全局中间件过滤
+- 五大全局中间件作用
 
-### 原文：
+### 参考原文：
 > https://laravel-china.org/docs/the-laravel-way/5.6
