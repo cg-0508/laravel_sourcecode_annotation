@@ -186,9 +186,10 @@ class Kernel implements KernelContract
     protected function dispatchToRouter()
     {
         return function ($request) {
+            // 将过滤好的 $request 实例，绑定到 Laravel 容器中
             $this->app->instance('request', $request);
-
-            return $this->router->dispatch($request);
+            // 核心！！！！ 路由调度，即路由匹配与运行的正式开始代码
+            return $this->router->dispatch($request); // 路由调度、控制器与方法匹配、响应生成
         };
     }
 

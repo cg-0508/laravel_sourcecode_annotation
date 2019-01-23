@@ -585,8 +585,9 @@ class Router implements RegistrarContract, BindingRegistrar
      */
     public function dispatch(Request $request)
     {
+        // 设置 currentRequest 属性为 $request
         $this->currentRequest = $request;
-
+        // 调用 dispatchToRoute 方法正式进行路由调度
         return $this->dispatchToRoute($request);
     }
 
@@ -598,6 +599,7 @@ class Router implements RegistrarContract, BindingRegistrar
      */
     public function dispatchToRoute(Request $request)
     {
+        // 先找路由（即路由匹配），然后运行路由
         return $this->runRoute($request, $this->findRoute($request));
     }
 
@@ -647,7 +649,7 @@ class Router implements RegistrarContract, BindingRegistrar
     {
         $shouldSkipMiddleware = $this->container->bound('middleware.disable') &&
                                 $this->container->make('middleware.disable') === true;
-
+        // 执行 gatherRouteMiddleware 方法获取路由中间件数组
         $middleware = $shouldSkipMiddleware ? [] : $this->gatherRouteMiddleware($route);
 
         return (new Pipeline($this->container))

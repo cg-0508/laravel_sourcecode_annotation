@@ -113,6 +113,9 @@ class Pipeline implements PipelineContract
      */
     protected function prepareDestination(Closure $destination)
     {
+        // 标准管道操作的闭包函数，这个闭包函数会在最后一个全局中间件 `TrustProxies` 中通过 $next($request) 调用
+        // Illuminate\Foundation\Http\Kernel中sendRequestThroughRouter最后一步 【  ->then($this->dispatchToRouter())  】
+        // $this->dispatchToRouter() 的返回值就是上面 $destination
         return function ($passable) use ($destination) {
             return $destination($passable);
         };
