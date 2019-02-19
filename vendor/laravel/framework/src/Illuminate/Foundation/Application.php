@@ -140,7 +140,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
     {
         // (1) 从 `bootstrap\app.php` 传递过来的 $basePath 是有值的
         if ($basePath) {
-            // (2) 注册基本路径
+            // (2)
             $this->setBasePath($basePath);
         }
         // (20) 注册应用基本绑定，如 app 指向容器对象

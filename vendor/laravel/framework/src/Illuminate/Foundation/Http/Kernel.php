@@ -141,11 +141,9 @@ class Kernel implements KernelContract
     protected function sendRequestThroughRouter($request)
     {
         $this->app->instance('request', $request);
-
         Facade::clearResolvedInstance('request');
         // 循环调用服务提供者的 bootstrap 方法
         $this->bootstrap();
-
         /**
          * 首先实例化管道（Pipeline）类，将容器对象传入构造函数，返回管道对象；
          * 然后调用管道对象的 send（送） 方法，以 request（请求） 对象为参数（即把 requset 送入管道，准备穿透中间件）；

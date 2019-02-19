@@ -279,7 +279,7 @@ class ClassLoader
      */
     public function setApcuPrefix($apcuPrefix)
     {
-        $this->apcuPrefix = function_exists('apcu_fetch') && ini_get('apc.enabled') ? $apcuPrefix : null;
+        $this->apcuPrefix = function_exists('apcu_fetch') && filter_var(ini_get('apc.enabled'), FILTER_VALIDATE_BOOLEAN) ? $apcuPrefix : null;
     }
 
     /**
@@ -294,8 +294,6 @@ class ClassLoader
 
     /**
      * Registers this instance as an autoloader.
-     *
-     * 核心方法：将 Laravel 自动加载运行的方法 loadClass 添加至 PHP 自动加载序列
      *
      * @param bool $prepend Whether to prepend the autoloader or not
      */
@@ -314,13 +312,12 @@ class ClassLoader
 
     /**
      * Loads the given class or interface.
-     * 核心中的核心：以后的代码运行，碰到没有加载的类，就会来这里加载！！！
+     *
      * @param  string    $class The name of the class
      * @return bool|null True if loaded, null otherwise
      */
     public function loadClass($class)
     {
-
         if ($file = $this->findFile($class)) {
             includeFile($file);
 
@@ -330,7 +327,7 @@ class ClassLoader
 
     /**
      * Finds the path to the file where the class is defined.
-     * 被核心中的核心调用了的方法，主要从 类 与 路径 映射中取出 类 所在的文件绝对路径，方便接下来的类加载
+     *
      * @param string $class The name of the class
      *
      * @return string|false The path if found, false otherwise
@@ -380,7 +377,7 @@ class ClassLoader
             $subPath = $class;
             while (false !== $lastPos = strrpos($subPath, '\\')) {
                 $subPath = substr($subPath, 0, $lastPos);
-                $search = $subPath.'\\';
+                $search = $subPath . '\\';
                 if (isset($this->prefixDirsPsr4[$search])) {
                     $pathEnd = DIRECTORY_SEPARATOR . substr($logicalPathPsr4, $lastPos + 1);
                     foreach ($this->prefixDirsPsr4[$search] as $dir) {
